@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import { UIContext } from "../context/UIContext";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const { dark, fontSize, lang } =
     useContext(UIContext);
 
@@ -68,13 +68,109 @@ export default function LoginPage() {
           background:
             "linear-gradient(180deg, #ff1a5f 0%, rgba(11,11,43,0) 100%)",
           position: "absolute",
-          bottom: 40,
-          right: 20,
+          bottom: 80,
+          left: 20,
           filter: "blur(15px)",
         }}
       />
 
-      {/* LEFT TEXT */}
+      {/* LEFT CARD */}
+      <div
+        style={{
+          width: "520px",
+          padding: "50px",
+          borderRadius: "24px",
+          border: "1px solid rgba(255,255,255,0.25)",
+          backdropFilter: "blur(30px)",
+          background: "rgba(20,20,50,0.25)",
+          boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
+          zIndex: 2,
+        }}
+      >
+        <h2
+          style={{
+            color: "#ff2d55",
+            fontSize: fontSize + 4,
+            textAlign: "center",
+          }}
+        >
+          {lang === "bn" ? "রেজিস্টার" : "Register"}
+        </h2>
+
+        <p
+          style={{
+            color: dark ? "white" : "#111",
+            textAlign: "center",
+            fontStyle: "italic",
+            marginBottom: "40px",
+            fontSize: fontSize + 4,
+          }}
+        >
+          {lang === "bn"
+            ? "শুরু করতে কিছু তথ্য দিন!"
+            : "Just some details to get you in!"}
+        </p>
+
+        <input
+          placeholder={
+            lang === "bn" ? "নাম" : "Username"
+          }
+          style={inputStyle}
+        />
+
+        <input
+          placeholder={
+            lang === "bn"
+              ? "ইমেইল / ফোন"
+              : "Email/Phone Number"
+          }
+          style={inputStyle}
+        />
+
+        <input
+          placeholder={
+            lang === "bn" ? "পাসওয়ার্ড" : "Password"
+          }
+          style={inputStyle}
+        />
+
+        <input
+          placeholder={
+            lang === "bn"
+              ? "কনফার্ম পাসওয়ার্ড"
+              : "Confirm Password"
+          }
+          style={inputStyle}
+        />
+
+        <button style={buttonStyle}>
+          {lang === "bn" ? "রেজিস্টার" : "Register"}
+        </button>
+
+        <p
+          style={{
+            color: dark ? "white" : "#111",
+            textAlign: "center",
+            marginTop: "25px",
+          }}
+        >
+          {lang === "bn"
+            ? "ইতিমধ্যে একাউন্ট আছে?"
+            : "Already have an Account?"}{" "}
+          <Link
+            href="/login"
+            style={{
+              color: "#ff2d55",
+              textDecoration: "none",
+              fontWeight: "700",
+            }}
+          >
+            {lang === "bn" ? "লগইন" : "Login"}
+          </Link>
+        </p>
+      </div>
+
+      {/* RIGHT TEXT */}
       <div style={{ zIndex: 2 }}>
         <h1
           style={{
@@ -85,8 +181,8 @@ export default function LoginPage() {
           }}
         >
           {lang === "bn"
-            ? "ফিরে আসায় স্বাগতম !"
-            : "Welcome Back !"}
+            ? "আজই যোগ দিন!"
+            : "Join us today!"}
         </h1>
 
         <div
@@ -108,107 +204,10 @@ export default function LoginPage() {
             }}
           >
             {lang === "bn"
-              ? "সহজেই ডোনার খুঁজুন!"
-              : "Find Donors Easily !"}
+              ? "শুরু করতে প্রস্তুত?"
+              : "Ready to get started?"}
           </p>
         </div>
-      </div>
-
-      {/* LOGIN CARD */}
-      <div
-        style={{
-          width: "520px",
-          padding: "50px",
-          borderRadius: "24px",
-          border: "1px solid rgba(255,255,255,0.25)",
-          backdropFilter: "blur(30px)",
-          background: "rgba(20,20,50,0.25)",
-          boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
-          zIndex: 2,
-        }}
-      >
-        <h2
-          style={{
-            color: "#ff2d55",
-            fontSize: fontSize + 4,
-            textAlign: "center",
-            marginBottom: "5px",
-          }}
-        >
-          {lang === "bn" ? "লগইন" : "Login"}
-        </h2>
-
-        <p
-          style={{
-            color: dark ? "white" : "#111",
-            textAlign: "center",
-            fontStyle: "italic",
-            marginBottom: "40px",
-            fontSize: fontSize + 4,
-          }}
-        >
-          {lang === "bn"
-            ? "আপনাকে আবার পেয়ে ভালো লাগছে!"
-            : "Glad You're Back!"}
-        </p>
-
-        <input
-          type="text"
-          placeholder={
-            lang === "bn" ? "নাম" : "Username"
-          }
-          style={inputStyle}
-        />
-
-        <input
-          type="password"
-          placeholder={
-            lang === "bn" ? "পাসওয়ার্ড" : "Password"
-          }
-          style={inputStyle}
-        />
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            marginBottom: "30px",
-            color: dark ? "white" : "#111",
-            fontWeight: "600",
-          }}
-        >
-          <input type="checkbox" />
-          {lang === "bn"
-            ? "আমাকে মনে রাখুন"
-            : "Remember me"}
-        </div>
-
-        <button style={buttonStyle}>
-          {lang === "bn" ? "লগইন" : "Login"}
-        </button>
-
-        <p
-          style={{
-            color: dark ? "white" : "#111",
-            textAlign: "center",
-            marginTop: "25px",
-          }}
-        >
-          {lang === "bn"
-            ? "একাউন্ট নেই?"
-            : "Don’t have an Account yet?"}{" "}
-          <Link
-            href="/register"
-            style={{
-              color: "#ff2d55",
-              textDecoration: "none",
-              fontWeight: "700",
-            }}
-          >
-            {lang === "bn" ? "রেজিস্টার" : "Register"}
-          </Link>
-        </p>
       </div>
     </div>
   );
