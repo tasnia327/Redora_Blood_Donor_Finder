@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "next lint"
-},
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,10 +19,11 @@
   "homepage": "https://github.com/tasnia327/Redora_Blood_Donor_Finder#readme",
   "dependencies": {
     "next": "^16.2.6",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react": "^18.3.1",
+"react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.0"
