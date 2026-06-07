@@ -9,11 +9,9 @@ export default function Navbar() {
   const pathname = usePathname();
   const ctx = useContext(UIContext);
 
-  const dark = ctx?.dark ?? true;
+  const { dark = true } = useContext(UIContext) || {};
 
-  const isAuthPage =
-    pathname === "/login" || pathname === "/register";
-
+  
   const navStyle = {
     textDecoration: "none",
     transition: "0.3s",
@@ -34,11 +32,9 @@ export default function Navbar() {
         backdropFilter: "blur(18px)",
 
         /* FIXED */
-        background: isAuthPage
-          ? "rgba(10,10,30,0.55)"
-          : dark
-          ? "rgba(10,10,30,0.55)"
-          : "rgba(255,255,255,0.75)",
+        background: dark
+  ? "rgba(10,10,30,0.55)"
+  : "rgba(255,255,255,0.75)",
 
         borderBottom: dark
           ? "1px solid rgba(255,255,255,0.05)"
