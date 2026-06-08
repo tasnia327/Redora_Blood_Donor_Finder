@@ -5,8 +5,7 @@ import { useContext } from "react";
 import { UIContext } from "../context/UIContext";
 
 export default function RegisterPage() {
-  const { dark, fontSize, lang } =
-    useContext(UIContext);
+  const { dark, fontSize, lang } = useContext(UIContext);
 
   const inputStyle = {
     width: "100%",
@@ -25,8 +24,7 @@ export default function RegisterPage() {
     height: "52px",
     border: "none",
     borderRadius: "10px",
-    background:
-      "linear-gradient(90deg,#8E2239,#ff1a5f)",
+    background: "linear-gradient(90deg,#8E2239,#ff1a5f)",
     color: "white",
     fontSize: fontSize + 4,
     fontWeight: "700",
@@ -36,13 +34,18 @@ export default function RegisterPage() {
   return (
     <div
       style={{
-        background: dark ? "#0b0f1a" : "#f4f4f4",
+        background: dark
+          ? "radial-gradient(circle at top, #1b1b2f, #0b0f1a 60%, #05060a)"
+          : "linear-gradient(135deg, #fff7f7, #fdf2ff, #eef4ff)",
+        minHeight: "calc(100vh - 140px)",
         position: "relative",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        padding: "60px",
+        justifyContent: "center",
+        gap: "80px",
+        padding: "60px clamp(20px, 5vw, 60px)",
+        flexWrap: "wrap",
       }}
     >
       {/* GLOW CIRCLES */}
@@ -55,11 +58,12 @@ export default function RegisterPage() {
             "linear-gradient(180deg, #ff1a5f 0%, rgba(11,11,43,0) 100%)",
           position: "absolute",
           top: 80,
-          left: 450,
+          left: "50%",
+          transform: "translateX(-50%)",
           filter: "blur(10px)",
+          pointerEvents: "none",
         }}
       />
-
       <div
         style={{
           width: 250,
@@ -71,14 +75,17 @@ export default function RegisterPage() {
           bottom: 80,
           left: 20,
           filter: "blur(15px)",
+          pointerEvents: "none",
         }}
       />
 
-      {/* LEFT CARD */}
+      {/* REGISTER CARD */}
       <div
         style={{
-          width: "520px",
-          padding: "50px",
+          width: "100%",
+          maxWidth: "520px",
+          flex: "1 1 320px",
+          padding: "50px clamp(24px, 5%, 50px)",
           borderRadius: "24px",
           border: "1px solid rgba(255,255,255,0.25)",
           backdropFilter: "blur(30px)",
@@ -112,33 +119,25 @@ export default function RegisterPage() {
         </p>
 
         <input
-          placeholder={
-            lang === "bn" ? "নাম" : "Username"
-          }
+          placeholder={lang === "bn" ? "নাম" : "Username"}
           style={inputStyle}
         />
 
         <input
           placeholder={
-            lang === "bn"
-              ? "ইমেইল / ফোন"
-              : "Email/Phone Number"
+            lang === "bn" ? "ইমেইল / ফোন" : "Email/Phone Number"
           }
           style={inputStyle}
         />
 
         <input
-          placeholder={
-            lang === "bn" ? "পাসওয়ার্ড" : "Password"
-          }
+          placeholder={lang === "bn" ? "পাসওয়ার্ড" : "Password"}
           style={inputStyle}
         />
 
         <input
           placeholder={
-            lang === "bn"
-              ? "কনফার্ম পাসওয়ার্ড"
-              : "Confirm Password"
+            lang === "bn" ? "কনফার্ম পাসওয়ার্ড" : "Confirm Password"
           }
           style={inputStyle}
         />
@@ -171,41 +170,49 @@ export default function RegisterPage() {
       </div>
 
       {/* RIGHT TEXT */}
-      <div style={{ zIndex: 2 }}>
-        <h1
-          style={{
-            color: dark ? "white" : "#111",
-            fontSize: "72px",
-            fontWeight: "700",
-            marginBottom: "40px",
-          }}
-        >
-          {lang === "bn"
-            ? "আজই যোগ দিন!"
-            : "Join us today!"}
-        </h1>
+      <div
+        style={{
+          zIndex: 2,
+          flex: "1 1 260px",
+          maxWidth: 400,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 24,
+        }}
+      >
+        <div>
+
+          <h1
+            style={{
+              color: dark ? "white" : "#111",
+              fontSize: "clamp(34px, 5vw, 62px)",
+              fontWeight: "800",
+              margin: 0,
+              lineHeight: 1.1,
+            }}
+          >
+            {lang === "bn" ? "আজই যোগ দিন!" : "Join us\ntoday!"}
+          </h1>
+        </div>
 
         <div
           style={{
-            border: "3px solid white",
-            width: "420px",
-            padding: "12px 0",
-            textAlign: "center",
-            marginTop: "10px",
+            borderLeft: "4px solid #ff2d55",
+            paddingLeft: "16px",
           }}
         >
           <p
             style={{
-              color: dark ? "white" : "#111",
-              fontSize: "20px",
+              color: dark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)",
+              fontSize: "17px",
               fontStyle: "italic",
               margin: 0,
-              fontWeight: "600",
+              fontWeight: "500",
+              lineHeight: 1.5,
             }}
           >
-            {lang === "bn"
-              ? "শুরু করতে প্রস্তুত?"
-              : "Ready to get started?"}
+            {lang === "bn" ? "শুরু করতে প্রস্তুত?" : "Ready to get started?\nBe a life-saver today."}
           </p>
         </div>
       </div>

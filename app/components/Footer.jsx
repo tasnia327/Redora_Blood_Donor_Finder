@@ -51,20 +51,21 @@ export default function Footer() {
       style={{
         marginTop: 0,
         width: "100%",
+        boxSizing: "border-box",
         background: dark
           ? "rgba(5, 6, 10, 0.9)"
           : "rgba(255,255,255,0.9)",
         borderTop: dark
           ? "1px solid rgba(255,255,255,0.08)"
           : "1px solid rgba(0,0,0,0.08)",
-        padding: "70px 60px 30px",
+        padding: "70px clamp(20px, 5vw, 60px) 30px",
         position: "relative",
         zIndex: 2,
         color: dark ? "white" : "black",
       }}
     >
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        
+
         {/* TOP SECTION */}
         <div
           style={{
@@ -75,7 +76,7 @@ export default function Footer() {
             paddingBottom: 40,
           }}
         >
-          
+
           {/* BRAND */}
           <div style={{ maxWidth: 320 }}>
             <h2
@@ -96,7 +97,7 @@ export default function Footer() {
 
           {/* LINKS */}
           <div style={{ display: "flex", gap: 60, flexWrap: "wrap" }}>
-            
+
             <div style={footerColumn}>
               <h4 style={footerTitle}>{t.footer.platformTitle}</h4>
               {t.footer.platformLinks.map((l) => (
