@@ -7,8 +7,6 @@ import { UIContext } from "../context/UIContext";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const ctx = useContext(UIContext);
-
   const { dark = true } = useContext(UIContext) || {};
 
   
@@ -16,7 +14,7 @@ export default function Navbar() {
     textDecoration: "none",
     transition: "0.3s",
     fontWeight: "600",
-    color: dark ? "white" : "#111827",
+    color: dark ? "#f5f7fa" : "#111827",
   };
 
   return (
@@ -33,8 +31,8 @@ export default function Navbar() {
 
         /* FIXED */
         background: dark
-  ? "rgba(10,10,30,0.55)"
-  : "rgba(255,255,255,0.75)",
+  ? "rgba(11,15,26,0.80)"
+  : "rgba(250,250,250,0.85)",
 
         borderBottom: dark
           ? "1px solid rgba(255,255,255,0.05)"

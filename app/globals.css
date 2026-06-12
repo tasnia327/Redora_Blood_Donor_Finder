@@ -37,6 +37,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide scrollbar for blood group cards and other scrollable containers */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
