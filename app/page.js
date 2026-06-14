@@ -249,31 +249,31 @@ function HeroSection({ theme, t, dark }) {
       </div>
 
       {/* RIGHT IMAGE */}
-<div
-  style={{
-    flex: "1 1 400px",
-    position: "relative",
-    borderRadius: 24,
-    overflow: "hidden",
-    boxShadow: dark
-      ? "0 4px 12px rgba(0,0,0,0.1)"
-      : "0 20px 60px rgba(255,45,85,0.15)",
-  }}
->
-  <Image
-    src={HERO_IMG}
-    alt="Blood donation"
-    width={600}
-    height={600}
-    style={{
-      width: "100%",
-      height: "auto",
-      display: "block",
-      objectFit: "cover",
-    }}
-    priority
-  />
-</div>
+      <div
+        style={{
+          flex: "1 1 400px",
+          position: "relative",
+          borderRadius: 24,
+          overflow: "hidden",
+          boxShadow: dark
+            ? "0 4px 12px rgba(0,0,0,0.1)"
+            : "0 20px 60px rgba(255,45,85,0.15)",
+        }}
+      >
+        <Image
+          src={HERO_IMG}
+          alt="Blood donation"
+          width={600}
+          height={600}
+          style={{
+            width: "100%",
+            height: "auto",
+            display: "block",
+            objectFit: "cover",
+          }}
+          priority
+        />
+      </div>
     </section>
   );
 }
@@ -522,24 +522,24 @@ function BloodGroupCards({ theme, t }) {
         }
       `}</style>
       <div
-  className="blood-group-scroll"
->
-  {groups.map((group, i) => (
-    <div
-      key={i}
-      style={{
-        flex: "0 0 120px",
-        padding: "24px 12px",
-        borderRadius: 20,
-        background: theme.card,
-        backdropFilter: "blur(16px)",
-        border: theme.border,
-        textAlign: "center",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-        
-      }}
-    
+        className="blood-group-scroll"
+      >
+        {groups.map((group, i) => (
+          <div
+            key={i}
+            style={{
+              flex: "0 0 120px",
+              padding: "24px 12px",
+              borderRadius: 20,
+              background: theme.card,
+              backdropFilter: "blur(16px)",
+              border: theme.border,
+              textAlign: "center",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+
+            }}
+
             onMouseEnter={(e) => {
               e.currentTarget.style.transform =
                 "translateY(-6px) scale(1.03)";
@@ -642,9 +642,8 @@ function EmergencySection({ theme, t }) {
           style={{
             flex: "1 1 400px",
             padding: "50px 44px",
-            background: `linear-gradient(135deg, ${theme.primaryDim}, rgba(124,77,255,${
-              theme.primaryDim.includes("0.2") ? "0.2" : "0.1"
-            }))`,
+            background: `linear-gradient(135deg, ${theme.primaryDim}, rgba(124,77,255,${theme.primaryDim.includes("0.2") ? "0.2" : "0.1"
+              }))`,
             backdropFilter: "blur(20px)",
             display: "flex",
             flexDirection: "column",
