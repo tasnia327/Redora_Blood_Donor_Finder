@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useContext, useEffect, useRef } from "react";
-import { UIContext } from "./context/UIContext";
+import { UIContext } from "@/context/UIContext";
 
 import {
   FaBolt,

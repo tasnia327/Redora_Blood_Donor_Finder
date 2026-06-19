@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { UIContext } from "../context/UIContext";
+
+import { UIContext } from "@/context/UIContext";
+import { AuthContext } from "@/context/AuthContext";
+
 import {
   FaApple,
   FaGoogle,
@@ -13,6 +16,7 @@ import {
 
 export default function AuthSlider({ initialMode = "login" }) {
   const { dark, fontSize, lang } = useContext(UIContext);
+const { login } = useContext(AuthContext);
   const router = useRouter();
 
   // Slider State (true = Sign Up / Register, false = Sign In / Login)
@@ -50,15 +54,23 @@ export default function AuthSlider({ initialMode = "login" }) {
   const [loginPassword, setLoginPassword] = useState("");
 
   const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    if (loginRole === "user") {
-      router.push("/dashboard/user");
-    } else if (loginRole === "donor") {
-      router.push("/dashboard/donor");
-    } else if (loginRole === "admin") {
-      router.push("/dashboard/admin");
-    }
+  e.preventDefault();
+
+  const userData = {
+    email: loginEmail,
+    role: loginRole,
   };
+
+  login(userData);
+
+  if (loginRole === "user") {
+    router.push("/dashboard/user");
+  } else if (loginRole === "donor") {
+    router.push("/dashboard/donor");
+  } else {
+    router.push("/dashboard/admin");
+  }
+};
 
   // --- REGISTER STATE & LOGIC ---
   const [regUsername, setRegUsername] = useState("");
@@ -106,6 +118,7 @@ export default function AuthSlider({ initialMode = "login" }) {
           email: regEmail,
           password: regPassword,
           confirmPassword: regConfirmPassword,
+          role: "user",
         }),
       });
 
@@ -248,6 +261,28 @@ export default function AuthSlider({ initialMode = "login" }) {
                 ? "রেজিস্টার"
                 : "Register"}
           </button>
+
+          <div style={{ textAlign: "center", marginTop: "18px" }}>
+  <p style={{ marginBottom: "8px", color: dark ? "white" : "#111" }}>
+    Want to donate blood?
+  </p>
+
+  <Link
+    href="/auth/register/donor"
+    style={{
+      display: "inline-block",
+      padding: "10px 16px",
+      borderRadius: "10px",
+      background: "rgba(255,45,85,0.12)",
+      border: "1px solid rgba(255,45,85,0.3)",
+      color: "#ff2d55",
+      fontWeight: "600",
+      textDecoration: "none",
+    }}
+  >
+    Register as Donor
+  </Link>
+</div>
 
           {/* Mobile-only toggle link */}
           <div className="md:hidden" style={{ textAlign: "center", marginTop: "20px" }}>

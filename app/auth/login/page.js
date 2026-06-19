@@ -1,10 +1,10 @@
 "use client";
 
 import { useContext } from "react";
-import { UIContext } from "../context/UIContext";
-import AuthSlider from "../components/AuthSlider";
+import { UIContext } from "@/context/UIContext";
+import AuthSlider from "@/components/features/auth/AuthSlider";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const { dark } = useContext(UIContext) || {};
 
   return (
@@ -47,8 +47,8 @@ export default function RegisterPage() {
           background:
             "linear-gradient(180deg, #ff2d55 0%, rgba(11,11,43,0) 100%)",
           position: "absolute",
-          bottom: 80,
-          left: 20,
+          bottom: 40,
+          right: 20,
           filter: "blur(15px)",
           pointerEvents: "none",
           zIndex: 1,
@@ -57,7 +57,7 @@ export default function RegisterPage() {
 
       {/* SLIDER CARD CONTAINER */}
       <div style={{ zIndex: 2, display: "flex", justifyContent: "center", width: "100%", maxWidth: "1000px" }}>
-        <AuthSlider initialMode="register" />
+        <AuthSlider initialMode="login" />
       </div>
     </div>
   );
