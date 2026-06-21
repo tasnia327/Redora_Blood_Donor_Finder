@@ -239,10 +239,10 @@ function HeroSection({ theme, t, dark }) {
             flexWrap: "wrap",
           }}
         >
-          <Link href="/login" style={{ textDecoration: "none" }}>
+          <Link href="/donors" style={{ textDecoration: "none" }}>
             <button style={primaryBtn}>{t.cta1}</button>
           </Link>
-          <Link href="/register" style={{ textDecoration: "none" }}>
+          <Link href="/auth/register/donor" style={{ textDecoration: "none" }}>
             <button style={primaryBtn}>{t.cta2}</button>
           </Link>
         </div>
