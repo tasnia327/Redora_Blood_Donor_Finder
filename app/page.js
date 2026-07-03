@@ -2,8 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useContext, useEffect, useRef } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UIContext } from "@/context/UIContext";
+import ScrollReelTestimonials from "@/components/ui/ScrollReelTestimonials";
+import { ImageSwiper } from "@/components/ui/ImageSwiper";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import AuthSlider from "@/components/features/auth/AuthSlider";
 
 import {
   FaBolt,
@@ -20,7 +25,35 @@ import {
   FaMedal,
 } from "react-icons/fa";
 
-const HERO_IMG = "/images/hero.jpg";
+const TESTIMONIALS = [
+  {
+    quote: "A donor responded within minutes and saved my father's life.",
+    author: "Nusrat Jahan",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80&auto=format&fit=crop",
+  },
+  {
+    quote:
+      "The platform helped us find O-negative blood during an emergency.",
+    author: "Rahim Ahmed",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80&auto=format&fit=crop",
+  },
+  {
+    quote:
+      "I have donated blood 12 times through this community.",
+    author: "Fahim Hasan",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&auto=format&fit=crop",
+  },
+];
+
+const HERO_IMAGES = [
+  "/images/hero.jpg",
+  "/images/hero1.jpg",
+  "/images/hero2.jpg",
+  "/images/hero3.jpg",
+];
 const HOW_1 = "/images/how1.png";
 const HOW_2 = "/images/how2.png";
 const HOW_3 = "/images/how3.png";
@@ -121,6 +154,9 @@ export default function Home() {
     zIndex: 1,
   };
 
+  
+
+
   return (
     <div style={containerStyle}>
       {/* GLOBAL ORBS */}
@@ -143,7 +179,7 @@ export default function Home() {
       <HowItWorksSection theme={theme} t={t} />
       <BloodGroupCards theme={theme} t={t} />
       <EmergencySection theme={theme} t={t} />
-      <SuccessStories theme={theme} t={t} />
+      <TestimonialSection theme={theme} />
       <CommunitySection theme={theme} t={t} />
       <FeaturesSection theme={theme} t={t} />
     </div>
@@ -154,6 +190,17 @@ export default function Home() {
 /* HERO */
 /* ================================================================ */
 function HeroSection({ theme, t, dark }) {
+  const [index, setIndex] = useState(0);
+  const router = useRouter();
+const [search, setSearch] = useState("");
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+  }, 4000); // change every 4s
+
+  return () => clearInterval(interval);
+}, []);
   return (
     <section
       style={{
@@ -169,13 +216,28 @@ function HeroSection({ theme, t, dark }) {
       }}
     >
       {/* LEFT TEXT */}
-      <div style={{ flex: "1 1 480px" }}>
-        <div style={badgeStyle}>
+      <motion.div
+        initial={{ opacity: 0, x: -60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        style={{ flex: "1 1 480px" }}
+      >
+        {/* BADGE */}
+        <motion.div
+          initial={{ opacity: 0, y: -30, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+          style={badgeStyle}
+        >
           {renderIcon("🔥", 18, "#ff2d55")}&nbsp;
           {t.badge.replace(/^[^\s]+\s*/, "")}
-        </div>
+        </motion.div>
 
-        <h1
+        {/* TITLE with staggered word animation */}
+        <motion.h1
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
           style={{
             fontSize: "clamp(30px, 3vw, 48px)",
             fontWeight: 700,
@@ -184,11 +246,35 @@ function HeroSection({ theme, t, dark }) {
             margin: "28px 0 20px",
           }}
         >
-          {t.title.split("Instantly")[0]}
-          <span style={{ color: theme.primary }}>Instantly</span>
-        </h1>
+          {t.title.split("Instantly").map((part, i) => (
+            <span key={i} style={{ display: "inline-block", overflow: "hidden", verticalAlign: "top" }}>
+              <motion.span
+                style={{ display: "inline-block" }}
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.35 + i * 0.2, ease: "easeOut" }}
+              >
+                {part}
+              </motion.span>
+            </span>
+          ))}
+          <span style={{ display: "inline-block", overflow: "hidden", verticalAlign: "top" }}>
+            <motion.span
+              style={{ display: "inline-block", color: theme.primary }}
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.55, ease: "easeOut" }}
+            >
+              Instantly
+            </motion.span>
+          </span>
+        </motion.h1>
 
-        <p
+        {/* SUBTITLE */}
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
           style={{
             opacity: 0.8,
             maxWidth: 560,
@@ -198,82 +284,120 @@ function HeroSection({ theme, t, dark }) {
           }}
         >
           {t.subtitle}
-        </p>
+        </motion.p>
 
         {/* SEARCH */}
-        <div
-          style={{
-            display: "flex",
-            maxWidth: 520,
-            borderRadius: 16,
-            overflow: "hidden",
-            background: dark ? "rgba(255,255,255,0.06)" : "#ffffff",
-            backdropFilter: "blur(14px)",
-            border: theme.border,
-            boxShadow: dark
-              ? "0 8px 32px rgba(0,0,0,0.3)"
-              : "0 8px 32px rgba(0,0,0,0.06)",
-          }}
-        >
-          <input
-            placeholder={t.search}
-            style={{
-              flex: 1,
-              padding: "18px 20px",
-              border: "none",
-              outline: "none",
-              fontSize: 16,
-              background: "transparent",
-              color: theme.text,
-            }}
-          />
-          <button style={searchBtn}>{t.searchBtn}</button>
-        </div>
+        <motion.div
+  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+  animate={{ opacity: 1, y: 0, scale: 1 }}
+  transition={{ duration: 0.7, delay: 0.65, ease: "easeOut" }}
+  style={{
+    display: "flex",
+    maxWidth: 520,
+    borderRadius: 16,
+    overflow: "hidden",
+    background: dark ? "rgba(255,255,255,0.06)" : "#ffffff",
+    backdropFilter: "blur(14px)",
+    border: theme.border,
+    boxShadow: dark
+      ? "0 8px 32px rgba(0,0,0,0.3)"
+      : "0 8px 32px rgba(0,0,0,0.06)",
+  }}
+>
+  <input
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      router.push(`/donors?q=${encodeURIComponent(search.trim())}`);
+    }
+  }}
+  placeholder={t.search}
+  style={{
+    flex: 1,
+    padding: "18px 20px",
+    border: "none",
+    outline: "none",
+    fontSize: 16,
+    background: "transparent",
+    color: theme.text,
+  }}
+/>
+
+  <button
+    style={searchBtn}
+    onClick={() => {
+      if (!search.trim()) return;
+      router.push(`/donors?q=${encodeURIComponent(search.trim())}`);
+    }}
+  >
+    {t.searchBtn}
+  </button>
+</motion.div>
 
         {/* BUTTONS */}
-        <div
-          style={{
-            marginTop: 24,
-            display: "flex",
-            gap: 14,
-            flexWrap: "wrap",
-          }}
-        >
-          <Link href="/donors" style={{ textDecoration: "none" }}>
-            <button style={primaryBtn}>{t.cta1}</button>
-          </Link>
-          <Link href="/auth/register/donor" style={{ textDecoration: "none" }}>
-            <button style={primaryBtn}>{t.cta2}</button>
-          </Link>
-        </div>
-      </div>
-
-      {/* RIGHT IMAGE */}
-      <div
-        style={{
-          flex: "1 1 400px",
-          position: "relative",
-          borderRadius: 24,
-          overflow: "hidden",
-          boxShadow: dark
-            ? "0 4px 12px rgba(0,0,0,0.1)"
-            : "0 20px 60px rgba(255,45,85,0.15)",
-        }}
+        <motion.div
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.7, delay: 0.8, ease: "easeOut" }}
+  style={{
+    marginTop: 24,
+    display: "flex",
+    gap: 14,
+    flexWrap: "wrap",
+  }}
+>
+  {/* Button 1 */}
+  <motion.div
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.5, delay: 0.9, ease: "easeOut" }}
+  >
+    <Link href="/donors" style={{ textDecoration: "none" }}>
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        style={primaryBtn}
       >
-        <Image
-          src={HERO_IMG}
-          alt="Blood donation"
-          width={600}
-          height={600}
-          style={{
-            width: "100%",
-            height: "auto",
-            display: "block",
-            objectFit: "cover",
-          }}
-          priority
+        Find Donor
+      </motion.button>
+    </Link>
+  </motion.div>
+
+  {/* Button 2 */}
+  <motion.div
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.5, delay: 0.9, ease: "easeOut" }}
+  >
+    <Link href="auth/register/donor" style={{ textDecoration: "none" }}>
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        style={primaryBtn}
+      >
+        Become Donor
+      </motion.button>
+    </Link>
+  </motion.div>
+</motion.div>
+      </motion.div>
+
+      
+      {/* RIGHT IMAGES */}
+      <motion.div
+        initial={{ opacity: 0, x: 100, scale: 0.9 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
+        style={{ flex: "1 1 420px", display: "flex", justifyContent: "center" }}
+      >
+        <ImageSwiper
+          images={HERO_IMAGES.join(",")}
+          cardWidth={480}
+          cardHeight={460}
+          glow
         />
-      </div>
+      </motion.div>
     </section>
   );
 }
@@ -743,12 +867,7 @@ function EmergencySection({ theme, t }) {
   );
 }
 
-/* ================================================================ */
-/* SUCCESS STORIES */
-/* ================================================================ */
-function SuccessStories({ theme, t }) {
-  const stories = t.successStories?.stories || [];
-
+function TestimonialSection({ theme }) {
   return (
     <section
       style={{
@@ -759,121 +878,38 @@ function SuccessStories({ theme, t }) {
         padding: "0 40px",
       }}
     >
-      <div style={{ textAlign: "center", marginBottom: 50 }}>
+      <div
+        style={{
+          textAlign: "center",
+          marginBottom: 40,
+        }}
+      >
         <h2
           style={{
-            fontSize: "clamp(28px, 2vw, 36px)",
+            fontSize: "clamp(28px,2vw,36px)",
             fontWeight: 800,
             letterSpacing: "-0.03em",
             marginBottom: 12,
           }}
         >
-          {t.successStories?.title || "Success Stories"}
+          Community Voices
         </h2>
-        <p style={{ opacity: 0.7, fontSize: 17 }}>
-          {t.successStories?.subtitle || ""}
+
+        <p
+          style={{
+            opacity: 0.7,
+            fontSize: 17,
+          }}
+        >
+          Real experiences from donors and recipients.
         </p>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: 24,
-        }}
-      >
-        {stories.map((story, i) => (
-          <div
-            key={i}
-            style={{
-              borderRadius: 24,
-              background: theme.card,
-              backdropFilter: "blur(16px)",
-              border: theme.border,
-              overflow: "hidden",
-              transition: "all 0.3s ease",
-              display: "flex",
-              flexDirection: "column",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-6px)";
-              e.currentTarget.style.background = theme.cardHover;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.background = theme.card;
-            }}
-          >
-            {/* Content */}
-            <div style={{ padding: "20px 22px 24px", flex: 1, display: "flex", flexDirection: "column" }}>
-              {/* Quote */}
-              <div
-                style={{
-                  fontSize: 36,
-                  lineHeight: 0.8,
-                  color: theme.primary,
-                  opacity: 0.3,
-                  marginBottom: 8,
-                  fontFamily: "Georgia, serif",
-                }}
-              >
-                "
-              </div>
-
-              <p
-                style={{
-                  opacity: 0.8,
-                  lineHeight: 1.7,
-                  fontSize: 15,
-                  flex: 1,
-                }}
-              >
-                {story.text}
-              </p>
-
-              {/* Author */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 14,
-                  marginTop: 16,
-                  paddingTop: 16,
-                  borderTop: theme.border,
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 36,
-                    width: 44,
-                    height: 44,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "50%",
-                    background: theme.primaryDim,
-                    flexShrink: 0,
-                    color: theme.primary,
-                  }}
-                >
-                  {renderIcon(story.avatar, 24)}
-                </div>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 15 }}>
-                    {story.name}
-                  </div>
-                  <div style={{ fontSize: 13, opacity: 0.55 }}>
-                    {story.role}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <ScrollReelTestimonials testimonials={TESTIMONIALS} />
     </section>
   );
 }
+
 
 /* ================================================================ */
 /* COMMUNITY / TOP DONORS */
