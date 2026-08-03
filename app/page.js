@@ -114,6 +114,7 @@ export default function Home() {
     open,
     setOpen,
     t,
+
   } = useContext(UIContext);
 
   const theme = {
@@ -154,7 +155,7 @@ export default function Home() {
     zIndex: 1,
   };
 
-  
+
 
 
   return (
@@ -192,15 +193,15 @@ export default function Home() {
 function HeroSection({ theme, t, dark }) {
   const [index, setIndex] = useState(0);
   const router = useRouter();
-const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    setIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-  }, 4000); // change every 4s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 4000); // change every 4s
 
-  return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <section
       style={{
@@ -288,102 +289,102 @@ useEffect(() => {
 
         {/* SEARCH */}
         <motion.div
-  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-  animate={{ opacity: 1, y: 0, scale: 1 }}
-  transition={{ duration: 0.7, delay: 0.65, ease: "easeOut" }}
-  style={{
-    display: "flex",
-    maxWidth: 520,
-    borderRadius: 16,
-    overflow: "hidden",
-    background: dark ? "rgba(255,255,255,0.06)" : "#ffffff",
-    backdropFilter: "blur(14px)",
-    border: theme.border,
-    boxShadow: dark
-      ? "0 8px 32px rgba(0,0,0,0.3)"
-      : "0 8px 32px rgba(0,0,0,0.06)",
-  }}
->
-  <input
-  value={search}
-  onChange={(e) => setSearch(e.target.value)}
-  onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      router.push(`/donors?q=${encodeURIComponent(search.trim())}`);
-    }
-  }}
-  placeholder={t.search}
-  style={{
-    flex: 1,
-    padding: "18px 20px",
-    border: "none",
-    outline: "none",
-    fontSize: 16,
-    background: "transparent",
-    color: theme.text,
-  }}
-/>
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.65, ease: "easeOut" }}
+          style={{
+            display: "flex",
+            maxWidth: 520,
+            borderRadius: 16,
+            overflow: "hidden",
+            background: dark ? "rgba(255,255,255,0.06)" : "#ffffff",
+            backdropFilter: "blur(14px)",
+            border: theme.border,
+            boxShadow: dark
+              ? "0 8px 32px rgba(0,0,0,0.3)"
+              : "0 8px 32px rgba(0,0,0,0.06)",
+          }}
+        >
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                router.push(`/donors?q=${encodeURIComponent(search.trim())}`);
+              }
+            }}
+            placeholder={t.search}
+            style={{
+              flex: 1,
+              padding: "18px 20px",
+              border: "none",
+              outline: "none",
+              fontSize: 16,
+              background: "transparent",
+              color: theme.text,
+            }}
+          />
 
-  <button
-    style={searchBtn}
-    onClick={() => {
-      if (!search.trim()) return;
-      router.push(`/donors?q=${encodeURIComponent(search.trim())}`);
-    }}
-  >
-    {t.searchBtn}
-  </button>
-</motion.div>
+          <button
+            style={searchBtn}
+            onClick={() => {
+              if (!search.trim()) return;
+              router.push(`/donors?q=${encodeURIComponent(search.trim())}`);
+            }}
+          >
+            {t.searchBtn}
+          </button>
+        </motion.div>
 
         {/* BUTTONS */}
         <motion.div
-  initial={{ opacity: 0, y: 40 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.7, delay: 0.8, ease: "easeOut" }}
-  style={{
-    marginTop: 24,
-    display: "flex",
-    gap: 14,
-    flexWrap: "wrap",
-  }}
->
-  {/* Button 1 */}
-  <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.5, delay: 0.9, ease: "easeOut" }}
-  >
-    <Link href="/donors" style={{ textDecoration: "none" }}>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        style={primaryBtn}
-      >
-        Find Donor
-      </motion.button>
-    </Link>
-  </motion.div>
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.8, ease: "easeOut" }}
+          style={{
+            marginTop: 24,
+            display: "flex",
+            gap: 14,
+            flexWrap: "wrap",
+          }}
+        >
+          {/* Button 1 */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.9, ease: "easeOut" }}
+          >
+            <Link href="/donors" style={{ textDecoration: "none" }}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={primaryBtn}
+              >
+                Find Donor
+              </motion.button>
+            </Link>
+          </motion.div>
 
-  {/* Button 2 */}
-  <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.5, delay: 0.9, ease: "easeOut" }}
-  >
-    <Link href="auth/register/donor" style={{ textDecoration: "none" }}>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        style={primaryBtn}
-      >
-        Become Donor
-      </motion.button>
-    </Link>
-  </motion.div>
-</motion.div>
+          {/* Button 2 */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.9, ease: "easeOut" }}
+          >
+            <Link href="auth/register/donor" style={{ textDecoration: "none" }}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={primaryBtn}
+              >
+                Become Donor
+              </motion.button>
+            </Link>
+          </motion.div>
+        </motion.div>
       </motion.div>
 
-      
+
       {/* RIGHT IMAGES */}
       <motion.div
         initial={{ opacity: 0, x: 100, scale: 0.9 }}
@@ -818,7 +819,7 @@ function EmergencySection({ theme, t }) {
           </p>
 
           <div style={{ position: "relative" }}>
-            <Link href="/login" style={{ textDecoration: "none" }}>
+            <Link href="/auth/login" style={{ textDecoration: "none" }}>
               <button
                 style={{
                   padding: "18px 40px",

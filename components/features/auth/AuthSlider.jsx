@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-import { UIContext } from "@/context/UIContext";
-import { AuthContext } from "@/context/AuthContext";
-
+import { UIContext } from "../../../context/UIContext";
+import { AuthContext } from "../../../context/AuthContext";
 import {
   FaApple,
   FaGoogle,
@@ -16,7 +14,6 @@ import {
 
 export default function AuthSlider({ initialMode = "login" }) {
   const { dark, fontSize, lang } = useContext(UIContext);
-const { login } = useContext(AuthContext);
   const router = useRouter();
 
   // Slider State (true = Sign Up / Register, false = Sign In / Login)
@@ -31,9 +28,9 @@ const { login } = useContext(AuthContext);
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      if (path === "/register") {
+      if (path === "/auth/register") {
         setIsSignUp(true);
-      } else if (path === "/login") {
+      } else if (path === "/auth/login") {
         setIsSignUp(false);
       }
     };
@@ -44,37 +41,62 @@ const { login } = useContext(AuthContext);
   // Handler to toggle view and sync URL without full page reload
   const toggleMode = (signUp) => {
     setIsSignUp(signUp);
-    const newPath = signUp ? "/register" : "/login";
+    const newPath = signUp ? "/auth/register" : "/auth/login";
     window.history.pushState(null, "", newPath);
   };
 
   // --- LOGIN STATE & LOGIC ---
   const [loginRole, setLoginRole] = useState("user");
-  const [loginEmail, setLoginEmail] = useState("");
+  const [loginContact, setLoginContact] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
-  const handleLoginSubmit = (e) => {
+ const handleLoginSubmit = async (e) => {
   e.preventDefault();
 
-  const userData = {
-    email: loginEmail,
-    role: loginRole,
-  };
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contact: loginContact,
+        password: loginPassword,
+        role: loginRole,
+      }),
+    });
 
-  login(userData);
+    const data = await res.json();
 
-  if (loginRole === "user") {
-    router.push("/dashboard/user");
-  } else if (loginRole === "donor") {
-    router.push("/dashboard/donor");
-  } else {
-    router.push("/dashboard/admin");
-  }
+    console.log("LOGIN RESPONSE:", data);
+
+    // ❗ IMPORTANT: handle error properly
+    if (!data.success) {
+      alert(data.message || "Login failed");
+      return;
+    }
+
+    // success
+    localStorage.setItem("token", data.token);
+    alert("Login successful");
+
+    if (loginRole === "user") {
+      router.push("/dashboard/user");
+    } else if (loginRole === "donor") {
+      router.push("/dashboard/donor");
+    } else {
+      router.push("/dashboard/admin");
+    }
+
+  }  catch (err) {
+  console.error("LOGIN FETCH ERROR:", err);
+  alert("Server error: " + err.message);
+}
 };
 
   // --- REGISTER STATE & LOGIC ---
   const [regUsername, setRegUsername] = useState("");
-  const [regEmail, setRegEmail] = useState("");
+  const [regContact, setRegContact] = useState("");
   const [regPassword, setRegPassword] = useState("");
   const [regConfirmPassword, setRegConfirmPassword] = useState("");
   const [regError, setRegError] = useState("");
@@ -84,7 +106,7 @@ const { login } = useContext(AuthContext);
     e.preventDefault();
     setRegError("");
 
-    if (!regUsername || !regEmail || !regPassword || !regConfirmPassword) {
+    if (!regUsername || !regContact || !regPassword || !regConfirmPassword) {
       setRegError(lang === "bn" ? "সব ঘর পূরণ করুন" : "All fields are required");
       return;
     }
@@ -110,22 +132,23 @@ const { login } = useContext(AuthContext);
     setRegLoading(true);
 
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: regUsername,
-          email: regEmail,
-          password: regPassword,
-          confirmPassword: regConfirmPassword,
-          role: "user",
-        }),
-      });
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    username: regUsername,
+    contact: regContact,   
+    password: regPassword,
+  }),
+});
 
       const data = await res.json();
 
-      if (!res.ok) {
-        setRegError(data.error || "Registration failed");
+      console.log("STATUS:", res.status);
+console.log("DATA:", data);
+
+      if (!data.success) {
+        setRegError(data.message || "Registration failed");
         setRegLoading(false);
         return;
       }
@@ -225,8 +248,8 @@ const { login } = useContext(AuthContext);
           <input
             placeholder={lang === "bn" ? "ইমেইল / ফোন" : "Email/Phone Number"}
             style={inputStyle}
-            value={regEmail}
-            onChange={(e) => setRegEmail(e.target.value)}
+            value={regContact}
+            onChange={(e) => setRegContact(e.target.value)}
           />
 
           <input
@@ -261,28 +284,6 @@ const { login } = useContext(AuthContext);
                 ? "রেজিস্টার"
                 : "Register"}
           </button>
-
-          <div style={{ textAlign: "center", marginTop: "18px" }}>
-  <p style={{ marginBottom: "8px", color: dark ? "white" : "#111" }}>
-    Want to donate blood?
-  </p>
-
-  <Link
-    href="/auth/register/donor"
-    style={{
-      display: "inline-block",
-      padding: "10px 16px",
-      borderRadius: "10px",
-      background: "rgba(255,45,85,0.12)",
-      border: "1px solid rgba(255,45,85,0.3)",
-      color: "#ff2d55",
-      fontWeight: "600",
-      textDecoration: "none",
-    }}
-  >
-    Register as Donor
-  </Link>
-</div>
 
           {/* Mobile-only toggle link */}
           <div className="md:hidden" style={{ textAlign: "center", marginTop: "20px" }}>
@@ -348,10 +349,10 @@ const { login } = useContext(AuthContext);
           </select>
 
           <input
-            type="email"
-            placeholder="Email"
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
+            type="text"
+            placeholder="Email or Phone Number"
+            value={loginContact}
+            onChange={(e) => setLoginContact(e.target.value)}
             style={inputStyle}
             required
           />
