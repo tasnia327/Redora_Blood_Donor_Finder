@@ -16,7 +16,8 @@ if (missingEnvVars.length > 0) {
 
 // ✅ ROUTES
 const authRoutes = require("./routes/authRoutes");
-const donorRoutes = require("./routes/donorRoutes"); 
+const donorRoutes = require("./routes/donorRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -31,7 +32,8 @@ app.get("/", (req, res) => {
 
 // ✅ SINGLE API LAYER
 app.use("/api/auth", authRoutes);
-app.use("/api/donor", donorRoutes); 
+app.use("/api/donor", donorRoutes);
+app.use("/api/user", userRoutes);
 
 // ❌ 404 HANDLER
 app.use((req, res) => {
