@@ -1,3 +1,7 @@
-export default function UserDashboard() {
-  return <h1>User Dashboard</h1>;
+"use client";
+
+import UserDashboard from "@/components/features/dashboard/UserDashboard";
+
+export default function Page() {
+  return <UserDashboard />;
 }
