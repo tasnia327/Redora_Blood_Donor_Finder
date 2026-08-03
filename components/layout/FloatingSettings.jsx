@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useEffect, useRef } from "react";
-import { UIContext } from "../context/UIContext";
+import { UIContext } from "@/context/UIContext";
 
 export default function FloatingSettings() {
   const { dark, setDark, lang, setLang, fontSize, setFontSize, open, setOpen, t } =
