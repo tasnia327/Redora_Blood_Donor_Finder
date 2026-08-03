@@ -1,0 +1,38 @@
+{
+  "name": "redora_blood_donor_finder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/tasnia327/Redora_Blood_Donor_Finder/issues"
+  },
+  "homepage": "https://github.com/tasnia327/Redora_Blood_Donor_Finder#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.21.0",
+    "next": "^16.2.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/node": "25.9.3",
+    "@types/react": "19.2.17",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.1",
+    "typescript": "6.0.3"
+  }
+}
