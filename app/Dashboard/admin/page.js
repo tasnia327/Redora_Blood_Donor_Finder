@@ -1,7 +1,9 @@
 "use client";
 
-import AdminDashboard from "@/components/features/admin/AdminDashboard";
-
 export default function AdminDashboardPage() {
-  return <AdminDashboard />;
+  return (
+    <div style={{ padding: "40px" }}>
+      <h1>Admin Dashboard Coming Soon</h1>
+    </div>
+  );
 }
